@@ -72,6 +72,7 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                         break;
 
                     case 4:
+
                         // alteração aluno
                         System.Console.WriteLine("Digite o ID do aluno a alterar:");
                         int idAlterar = Int32.Parse(System.Console.ReadLine());
@@ -79,31 +80,59 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                         var filtrado = pessoas.Where(x => x.pessoaID == idAlterar);
 
 
+                        var alunoAlterar = GetPessoa(idAlterar);
+                        if (alunoAlterar == null) continue;
+
+
+                        System.Console.WriteLine("digite o novo nome:");
+                        string novoNome = System.Console.ReadLine();
+                        System.Console.WriteLine("digite o novo ano de nascimento:");
+                        DateTime novaData = DateTime.Parse(System.Console.ReadLine());
+                        alunoAlterar.dataNascimento = novaData;
+                        alunoAlterar.nome = novoNome;
+
                         break;
 
                     case 5:
                         // alteração TA
+                        System.Console.WriteLine("digite o id da atividade a alterar");
+                        int idAtividadeAlterar = Int32.Parse(System.Console.ReadLine());
+                        var atividadeAlterar = GetTipoAtividade(idAtividadeAlterar);
+                        if (atividadeAlterar == null) continue;
+                        System.Console.WriteLine("digite a nova descricao:");
+                        string novaDescricao = System.Console.ReadLine();
+                        atividadeAlterar.descricao = novaDescricao;
+
 
                         break;
 
                     case 6:
                         // alteração AC
+                        System.Console.WriteLine("digite o id da atividade complementar a alterar");
+                        int idAtividadeComplementarAlterar = Int32.Parse(System.Console.ReadLine());
+                        var atividadeComplementarAlterar = GetAtividadeComplementar(idAtividadeComplementarAlterar);
+                        if (atividadeComplementarAlterar == null) continue;
+                        System.Console.WriteLine("digite a");
+
+
                         break;
 
                     case 7:
                         // exclusão Aluno
-                        System.Console.WriteLine("Digite o ID do Aluno que quer excluir:");
-                        int idExc = Int32.Parse(System.Console.ReadLine());
+                        System.Console.WriteLine("digite o id do aluno a ser excluido:");
+                        int idAlunoExcluir = Int32.Parse(System.Console.ReadLine());
+                        var alunoExcluir = GetPessoa(idAlunoExcluir);
+                        pessoas.Remove(alunoExcluir);
 
-                        
                         break;
 
                     case 8:
                         // exclusão TA
-                        System.Console.WriteLine("Digite o ID do Tipo de Atividade que quer excluir:");
-                        int idExclu = Int32.Parse(System.Console.ReadLine());
+                        System.Console.WriteLine("digite o id da atividade a ser excluida");
+                        int idAtividadeExcluir = Int32.Parse(System.Console.ReadLine());
+                        var atividadeExcluir = GetTipoAtividade(idAtividadeExcluir);
+                        tiposAtividades.Remove(atividadeExcluir);
 
-                        
                         break;
 
                     case 9:
@@ -116,24 +145,24 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                     case 10:
                         //CONSTAR
 
-                        System.Console.WriteLine("Alunos: \r\n");
+                        System.Console.WriteLine(" \r\nAlunos:");
                         foreach (Pessoa a in pessoas)
                         {
                             System.Console.WriteLine(a.pessoaID + " - " + a.nome + " - dtnasc.: " + a.dataNascimento);
                         }
                         
 
-                        System.Console.WriteLine("Tipos de Atividade:\r\n");
+                        System.Console.WriteLine("\r\nTipos de Atividade:");
                         foreach (TipoAtividade a in tiposAtividades)
                         {
                             System.Console.WriteLine(a.tipoAtividadeId + " - " + a.descricao);
                         }
                         
 
-                        System.Console.WriteLine("Atividades Complementares:\r\n");
+                        System.Console.WriteLine("\r\nAtividades Complementares:");
                         foreach (AtividadeComplementar a in atividadesComplementares)
                         {
-                            System.Console.WriteLine(a.atividadeComplementarID + " - " + a.aluno + " - dt: " + a.data + " - " + a.tipo + " - " + a.instituicao + " - dt Formação: " + a.anoFormacao);
+                            System.Console.WriteLine(a.atividadeComplementarID + " - " + a.aluno.nome + " - dt: " + a.data + " - " + a.tipo.descricao + " - " + a.instituicao + " - dt Formação: " + a.anoFormacao);
                         }
                         System.Console.ReadKey();
 
@@ -145,6 +174,24 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                         break;
                 }
             }
+        }
+        private static Pessoa GetPessoa(int pessoaId)
+        {
+            var pessoa = pessoas.Where(x => x.pessoaID == pessoaId).First();
+            return pessoa;
+        }
+
+        private static TipoAtividade GetTipoAtividade(int tipoAtividadeId)
+        {
+            var atividade = tiposAtividades.Where(x => x.tipoAtividadeId == tipoAtividadeId).First();
+            return atividade;
+
+        }
+
+        private static AtividadeComplementar GetAtividadeComplementar(int AtividadeComplementarId)
+        {
+            var complemento = atividadesComplementares.Where(x => x.atividadeComplementarID == AtividadeComplementarId).First();
+            return complemento;
         }
 
     }
