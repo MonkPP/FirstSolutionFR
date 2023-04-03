@@ -16,7 +16,7 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
             while (true)
             {
                 System.Console.WriteLine("Olá, bem-vindo ao sistema de cadastro de atividades de Alunos");
-                System.Console.WriteLine("Digite o que quer fazer: \r\n 1-Cadastrar Aluno \r\n 2-Cadastrar Tipo de Atividade \r\n 3-Cadastrar Atividade Complementar \r\n 7-Excluir Aluno \r\n 8-Excluir Tipo de Atividade \r\n 9-Excluir Atividade Complementar \r\n 10-Constar \r\n 11-Sair");
+                System.Console.WriteLine("Digite o que quer fazer: \r\n 1-Cadastrar Aluno \r\n 2-Cadastrar Tipo de Atividade \r\n 3-Cadastrar Atividade Complementar\r\n 4-Alterar Aluno  \r\n 5-Alterar Tipo de Atividade \r\n 6-Alterar  Atividade Complementar\r\n 7-Excluir Aluno \r\n 8-Excluir Tipo de Atividade \r\n 9-Excluir Atividade Complementar \r\n 10-Constar \r\n 11-Sair");
                 int op = Int32.Parse(System.Console.ReadLine());
 
                 switch (op)
@@ -77,9 +77,6 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                         System.Console.WriteLine("Digite o ID do aluno a alterar:");
                         int idAlterar = Int32.Parse(System.Console.ReadLine());
 
-                        var filtrado = pessoas.Where(x => x.pessoaID == idAlterar);
-
-
                         var alunoAlterar = GetPessoa(idAlterar);
                         if (alunoAlterar == null) continue;
 
@@ -97,8 +94,10 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                         // alteração TA
                         System.Console.WriteLine("digite o id da atividade a alterar");
                         int idAtividadeAlterar = Int32.Parse(System.Console.ReadLine());
+
                         var atividadeAlterar = GetTipoAtividade(idAtividadeAlterar);
                         if (atividadeAlterar == null) continue;
+
                         System.Console.WriteLine("digite a nova descricao:");
                         string novaDescricao = System.Console.ReadLine();
                         atividadeAlterar.descricao = novaDescricao;
@@ -110,10 +109,32 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                         // alteração AC
                         System.Console.WriteLine("digite o id da atividade complementar a alterar");
                         int idAtividadeComplementarAlterar = Int32.Parse(System.Console.ReadLine());
+
                         var atividadeComplementarAlterar = GetAtividadeComplementar(idAtividadeComplementarAlterar);
                         if (atividadeComplementarAlterar == null) continue;
-                        System.Console.WriteLine("digite a");
 
+                        System.Console.WriteLine("digite a nova data :");
+                        DateTime newData = DateTime.Parse(System.Console.ReadLine());
+                        System.Console.WriteLine("digite a nova instituição:");
+                        string novaInstituicao = System.Console.ReadLine();
+                        System.Console.WriteLine("Qual o ano de formação? ");
+                        int novoAnoFormacao = Int32.Parse(System.Console.ReadLine());
+
+
+                        System.Console.WriteLine("ID do tipo de Atividade: ");
+                        int novoIdTa = Int32.Parse(System.Console.ReadLine());
+                        var novoTipo = tiposAtividades.Where(y => y.tipoAtividadeId == novoIdTa).SingleOrDefault();
+
+                        System.Console.WriteLine("ID do Aluno: ");
+                        int novoIdAluno = Int32.Parse(System.Console.ReadLine());
+                        var novoAluno = pessoas.Where(x => x.pessoaID == novoIdAluno).SingleOrDefault();
+
+
+                        atividadeComplementarAlterar.data = newData;
+                        atividadeComplementarAlterar.instituicao = novaInstituicao;
+                        atividadeComplementarAlterar.anoFormacao = novoAnoFormacao;
+                        atividadeComplementarAlterar.aluno = novoAluno;
+                        atividadeComplementarAlterar.tipo = novoTipo;
 
                         break;
 
@@ -139,6 +160,8 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                         // exclusão AC
                         System.Console.WriteLine("Digite o ID da Atividade Complementar que quer excluir:");
                         int idExcluir = Int32.Parse(System.Console.ReadLine());
+                        var atividadeComplementarExcluir = GetAtividadeComplementar(idExcluir);
+                        atividadesComplementares.Remove(atividadeComplementarExcluir);
 
                         break;
 
@@ -164,7 +187,7 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                         {
                             System.Console.WriteLine(a.atividadeComplementarID + " - " + a.aluno.nome + " - dt: " + a.data + " - " + a.tipo.descricao + " - " + a.instituicao + " - dt Formação: " + a.anoFormacao);
                         }
-                        System.Console.ReadKey();
+                        System.Console.WriteLine("\r\n");
 
                         break;
 
