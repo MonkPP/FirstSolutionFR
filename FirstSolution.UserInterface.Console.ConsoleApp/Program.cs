@@ -25,6 +25,14 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                         //CADASTRAR ALUNO
                         System.Console.WriteLine("Digite o ID do aluno:");
                         int pessoaID = Int32.Parse(System.Console.ReadLine());
+
+                        var alu = pessoas.Where(x => x.pessoaID == pessoaID).SingleOrDefault();
+                        if (alu != null)
+                        {
+                            System.Console.WriteLine("ID ja usado");
+                            continue;
+                        }
+
                         System.Console.WriteLine("Digite o nome do aluno:");
                         string nome = System.Console.ReadLine();
                         System.Console.WriteLine("Digite a data de nascimento do aluno:");
