@@ -47,6 +47,17 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                         //CADASTRAR TIPO ATIVIDADE
                         System.Console.WriteLine("Digite o ID do Tipo de Atividade: ");
                         int tipoAtividadeID = Int32.Parse(System.Console.ReadLine());
+
+
+                        var atv = tiposAtividades.Where(x => x.tipoAtividadeId == tipoAtividadeID).SingleOrDefault();
+                        if (atv != null)
+                        {
+                            System.Console.WriteLine("ID ja usado");
+                            continue;
+                        }
+
+
+
                         System.Console.WriteLine("Digite o Tipo de Atividade: ");
                         string descricao = System.Console.ReadLine();
 
@@ -60,6 +71,16 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                         //CADASTRAR ATIVIDADE COMPLEMENTAR
                         System.Console.WriteLine("Digite o ID da Atividade Complementar: ");
                         int atividadeComplementarID = Int32.Parse(System.Console.ReadLine());
+
+
+                        var atvc = atividadesComplementares.Where(x => x.atividadeComplementarID == atividadeComplementarID).SingleOrDefault();
+                        if (atvc != null)
+                        {
+                            System.Console.WriteLine("ID ja usado");
+                            continue;
+                        }
+
+
                         System.Console.WriteLine("Digite a data da Atividade: ");
                         DateTime data = DateTime.Parse(System.Console.ReadLine());
                         System.Console.WriteLine("ID do tipo de Atividade: ");
