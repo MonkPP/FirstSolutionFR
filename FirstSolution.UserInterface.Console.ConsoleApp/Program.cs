@@ -22,44 +22,40 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                 switch (op)
                 {
                     case 1:
-                        //CADASTRAR ALUNO
-                        System.Console.WriteLine("Digite o ID do aluno:");
-                        int pessoaID = Int32.Parse(System.Console.ReadLine());
-
-                        var alu = pessoas.Where(x => x.pessoaID == pessoaID).SingleOrDefault();
-                        if (alu != null)
-                        {
-                            System.Console.WriteLine("ID ja usado");
-                            continue;
-                        }
-
+                        int pessoaID = pessoas.Count + 1;
                         System.Console.WriteLine("Digite o nome do aluno:");
                         string nome = System.Console.ReadLine();
+                        while (string.IsNullOrEmpty(nome))
+                        {
+                            System.Console.WriteLine("Digite um nome válido para o aluno:");
+                            nome = System.Console.ReadLine();
+                        }
+
                         System.Console.WriteLine("Digite a data de nascimento do aluno:");
-                        DateTime dataNascimento = DateTime.Parse(System.Console.ReadLine());
-                        Pessoa p = new Pessoa(pessoaID, nome, dataNascimento);
+                        DateTime dataNascimento;
+                        bool dataValida = DateTime.TryParse(System.Console.ReadLine(), out dataNascimento);
+                        while (!dataValida)
+                        {
+                            System.Console.WriteLine("Digite uma data válida de nascimento do aluno:");
+                            dataValida = DateTime.TryParse(System.Console.ReadLine(), out dataNascimento);
+                        }
                         
-                        pessoas.Add(p);
-                        
+                        Pessoa p = new Pessoa(pessoaID, nome, dataNascimento);                        
+                        pessoas.Add(p);                        
                         break;
 
                     case 2:
                         //CADASTRAR TIPO ATIVIDADE
-                        System.Console.WriteLine("Digite o ID do Tipo de Atividade: ");
-                        int tipoAtividadeID = Int32.Parse(System.Console.ReadLine());
-
-
-                        var atv = tiposAtividades.Where(x => x.tipoAtividadeId == tipoAtividadeID).SingleOrDefault();
-                        if (atv != null)
-                        {
-                            System.Console.WriteLine("ID ja usado");
-                            continue;
-                        }
-
-
-
+                        int tipoAtividadeID = tiposAtividades.Count + 1;
+                        
                         System.Console.WriteLine("Digite o Tipo de Atividade: ");
                         string descricao = System.Console.ReadLine();
+                        while (string.IsNullOrEmpty(descricao))
+                        {
+                            System.Console.WriteLine("Digite um tipo de atividade válido:");
+                            descricao = System.Console.ReadLine();
+                        }
+
 
                         TipoAtividade ta = new TipoAtividade(tipoAtividadeID, descricao);
 
@@ -69,30 +65,45 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
 
                     case 3:
                         //CADASTRAR ATIVIDADE COMPLEMENTAR
-                        System.Console.WriteLine("Digite o ID da Atividade Complementar: ");
-                        int atividadeComplementarID = Int32.Parse(System.Console.ReadLine());
+                        int atividadeComplementarID = atividadesComplementares.Count + 1;
 
-
-                        var atvc = atividadesComplementares.Where(x => x.atividadeComplementarID == atividadeComplementarID).SingleOrDefault();
-                        if (atvc != null)
+                        System.Console.WriteLine("Digite a data da Atividade: ");
+                        DateTime data;
+                        bool dataValid = DateTime.TryParse(System.Console.ReadLine(), out data);
+                        while (!dataValid)
                         {
-                            System.Console.WriteLine("ID ja usado");
-                            continue;
+                            System.Console.WriteLine("Digite uma data válida de nascimento do aluno:");
+                            dataValid = DateTime.TryParse(System.Console.ReadLine(), out data);
                         }
 
 
-                        System.Console.WriteLine("Digite a data da Atividade: ");
-                        DateTime data = DateTime.Parse(System.Console.ReadLine());
                         System.Console.WriteLine("ID do tipo de Atividade: ");
                         int id = Int32.Parse(System.Console.ReadLine());
                         var tipo = tiposAtividades.Where(y => y.tipoAtividadeId == id).SingleOrDefault();
                         System.Console.WriteLine("ID do Aluno: ");
                         int idAluno = Int32.Parse(System.Console.ReadLine());
                         var aluno = pessoas.Where(x => x.pessoaID == idAluno).SingleOrDefault();
+
+
                         System.Console.WriteLine("Qual instituição? ");
                         string instituicao = System.Console.ReadLine();
+                        while (string.IsNullOrEmpty(instituicao))
+                        {
+                            System.Console.WriteLine("Digite uma instituição válida:");
+                            instituicao = System.Console.ReadLine();
+                        }
+
+
                         System.Console.WriteLine("Qual o ano de formação? ");
-                        int anoFormacao = Int32.Parse(System.Console.ReadLine());
+                        int anoFormacao;
+                        bool anoValido = Int32.TryParse(System.Console.ReadLine(), out anoFormacao)
+                            && ((anoFormacao >= DateTime.Today.Year - 3) && (anoFormacao <= DateTime.Today.Year));
+                        while (!anoValido)
+                        {
+                            System.Console.WriteLine("Informe um ano de formação válido (máx. 3 anos atrás)? ");
+                            anoValido = Int32.TryParse(System.Console.ReadLine(), out anoFormacao)
+                                && ((anoFormacao >= DateTime.Today.Year - 3) && (anoFormacao <= DateTime.Today.Year));
+                        }
 
                         AtividadeComplementar ac = new AtividadeComplementar(atividadeComplementarID, data, aluno, tipo,instituicao, anoFormacao);
 
