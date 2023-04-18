@@ -23,6 +23,7 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                 {
                     case 1:
                         int pessoaID = pessoas.Count + 1;
+
                         System.Console.WriteLine("Digite o nome do aluno:");
                         string nome = System.Console.ReadLine();
                         while (string.IsNullOrEmpty(nome))
@@ -72,18 +73,33 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                         bool dataValid = DateTime.TryParse(System.Console.ReadLine(), out data);
                         while (!dataValid)
                         {
-                            System.Console.WriteLine("Digite uma data válida de nascimento do aluno:");
+                            System.Console.WriteLine("Digite uma data válida de Atividade:");
                             dataValid = DateTime.TryParse(System.Console.ReadLine(), out data);
                         }
 
 
                         System.Console.WriteLine("ID do tipo de Atividade: ");
+
                         int id = Int32.Parse(System.Console.ReadLine());
                         var tipo = tiposAtividades.Where(y => y.tipoAtividadeId == id).SingleOrDefault();
+                        while (tipo == null)
+                        {
+                            System.Console.WriteLine("digite um id de tipo de Atividade valido: ");
+                            id = Int32.Parse(System.Console.ReadLine());
+                            tipo = tiposAtividades.Where(y => y.tipoAtividadeId == id).SingleOrDefault();
+                        }
+
+
+
                         System.Console.WriteLine("ID do Aluno: ");
                         int idAluno = Int32.Parse(System.Console.ReadLine());
                         var aluno = pessoas.Where(x => x.pessoaID == idAluno).SingleOrDefault();
-
+                        while (aluno == null)
+                        {
+                            System.Console.WriteLine("digite um id de aluno valido: ");
+                            idAluno = Int32.Parse(System.Console.ReadLine());
+                            aluno = pessoas.Where(x => x.pessoaID == idAluno).SingleOrDefault();
+                        }
 
                         System.Console.WriteLine("Qual instituição? ");
                         string instituicao = System.Console.ReadLine();
@@ -105,7 +121,7 @@ namespace FirstSolution.UserInterface.Console.ConsoleApp
                                 && ((anoFormacao >= DateTime.Today.Year - 3) && (anoFormacao <= DateTime.Today.Year));
                         }
 
-                        AtividadeComplementar ac = new AtividadeComplementar(atividadeComplementarID, data, aluno, tipo,instituicao, anoFormacao);
+                        AtividadeComplementar ac = new AtividadeComplementar(atividadeComplementarID, data, aluno, tipo, instituicao, anoFormacao);
 
                         atividadesComplementares.Add(ac);
 
